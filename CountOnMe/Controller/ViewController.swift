@@ -107,28 +107,8 @@ class ViewController: UIViewController {
             return self.present(alertVC, animated: true, completion: nil)
         }
         
-        // Create local copy of operations
-        var operationsToReduce = elements
-        
         // Iterate over operations while an operand still here
-        while operationsToReduce.count > 1 {
-            let left = Int(operationsToReduce[0])!
-            let operand = operationsToReduce[1]
-            let right = Int(operationsToReduce[2])!
-            
-            let result: Float
-            switch operand {
-            case "+": result = Float(left + right)
-            case "-": result = Float(left - right)
-            case "x": result = Float(left * right)
-            case "/": result = Float(left / right)
-            default: fatalError("Unknown operator !")
-            }
-            
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result)", at: 0)
-        }
-        
+        let operationsToReduce = Operations.calcul(elements)
         textView.text.append(" = \(operationsToReduce.first!)")
     }
 
