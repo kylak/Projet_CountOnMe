@@ -26,11 +26,21 @@ class Operations {
                 case "/": result = Float(Float(left) / Float(right))
                 default: fatalError("Unknown operator !")
             }
-            
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result)", at: 0)
+            operationsToReduce.insert("\(result.clean)", at: 0)
             return operationsToReduce
         }
         return operationsToReduce
+    }
+}
+
+/* This extension is use to remove the ".0" from a float number like "32.0" for example.
+   So with clean we'd have "32" instead of "32.0". */
+extension Float {
+    var clean: String {
+        let intValue = Int(self)
+        if self == 0 {return "0"}
+        if self / Float (intValue) == 1 { return "\(intValue)" }
+        return "\(self)"
     }
 }
