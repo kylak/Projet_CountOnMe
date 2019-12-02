@@ -12,10 +12,6 @@
         <scene sceneID="BSq-PH-znu">
             <objects>
                 <viewController id="eqK-jh-KKu" customClass="ViewController" customModule="CountOnMe" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="tQO-Y2-VWE"/>
-                        <viewControllerLayoutGuide type="bottom" id="Fhl-dE-gDl"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="eIh-hr-C95">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -233,18 +229,18 @@
                         </subviews>
                         <color key="backgroundColor" red="0.87536688539999996" green="0.84808511389999996" blue="0.83804947389999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="AWJ-Vl-uau" firstAttribute="trailing" secondItem="isI-Gg-Iye" secondAttribute="trailing" constant="10" id="77c-N9-7GU"/>
-                            <constraint firstItem="AWJ-Vl-uau" firstAttribute="trailing" secondItem="ogr-Aw-e1h" secondAttribute="trailing" constant="10" id="F77-gP-PNA"/>
-                            <constraint firstItem="isI-Gg-Iye" firstAttribute="leading" secondItem="AWJ-Vl-uau" secondAttribute="leading" constant="10" id="IIb-Gu-3RO"/>
-                            <constraint firstItem="Fhl-dE-gDl" firstAttribute="top" secondItem="ogr-Aw-e1h" secondAttribute="bottom" constant="10" id="lrV-l0-Jzl"/>
-                            <constraint firstItem="T2H-yn-nBB" firstAttribute="top" secondItem="tQO-Y2-VWE" secondAttribute="bottom" constant="10" id="pPq-fJ-ueP"/>
-                            <constraint firstItem="T2H-yn-nBB" firstAttribute="leading" secondItem="AWJ-Vl-uau" secondAttribute="leading" constant="10" id="uBJ-f2-7sJ"/>
-                            <constraint firstItem="ogr-Aw-e1h" firstAttribute="leading" secondItem="AWJ-Vl-uau" secondAttribute="leading" constant="10" id="yVR-jx-yO4"/>
-                            <constraint firstItem="AWJ-Vl-uau" firstAttribute="trailing" secondItem="T2H-yn-nBB" secondAttribute="trailing" constant="10" id="ysP-bC-4n7"/>
+                            <constraint firstItem="e60-tf-pj9" firstAttribute="trailing" secondItem="isI-Gg-Iye" secondAttribute="trailing" constant="10" id="77c-N9-7GU"/>
+                            <constraint firstItem="e60-tf-pj9" firstAttribute="trailing" secondItem="ogr-Aw-e1h" secondAttribute="trailing" constant="10" id="F77-gP-PNA"/>
+                            <constraint firstItem="isI-Gg-Iye" firstAttribute="leading" secondItem="e60-tf-pj9" secondAttribute="leading" constant="10" id="IIb-Gu-3RO"/>
+                            <constraint firstItem="e60-tf-pj9" firstAttribute="bottom" secondItem="ogr-Aw-e1h" secondAttribute="bottom" constant="10" id="lrV-l0-Jzl"/>
+                            <constraint firstItem="T2H-yn-nBB" firstAttribute="top" secondItem="e60-tf-pj9" secondAttribute="top" constant="10" id="pPq-fJ-ueP"/>
+                            <constraint firstItem="T2H-yn-nBB" firstAttribute="leading" secondItem="e60-tf-pj9" secondAttribute="leading" constant="10" id="uBJ-f2-7sJ"/>
+                            <constraint firstItem="ogr-Aw-e1h" firstAttribute="leading" secondItem="e60-tf-pj9" secondAttribute="leading" constant="10" id="yVR-jx-yO4"/>
+                            <constraint firstItem="e60-tf-pj9" firstAttribute="trailing" secondItem="T2H-yn-nBB" secondAttribute="trailing" constant="10" id="ysP-bC-4n7"/>
                             <constraint firstItem="ogr-Aw-e1h" firstAttribute="top" secondItem="isI-Gg-Iye" secondAttribute="bottom" constant="10" id="zKX-TT-lSZ"/>
                             <constraint firstItem="isI-Gg-Iye" firstAttribute="top" secondItem="T2H-yn-nBB" secondAttribute="bottom" constant="10" id="zdx-Pf-38t"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="AWJ-Vl-uau"/>
+                        <viewLayoutGuide key="safeArea" id="e60-tf-pj9"/>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="77c-N9-7GU"/>
