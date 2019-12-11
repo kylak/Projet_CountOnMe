@@ -7,24 +7,109 @@
 //
 
 import Foundation
+import UIKit
 
 class Operations {
-    
+
+    var textView: UITextView!
+    let notif = NotificationCenter.default
+
+    var elements: [String] {
+        return textView.text.split(separator: " ").map { "\($0)" }
+    }
+
+    // Error check computed variables
+    var expressionIsCorrect: Bool {
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/"
+    }
+
+    var expressionHaveEnoughElement: Bool {
+        return elements.count >= 3
+    }
+
+    var canAddOperator: Bool {
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/"
+    }
+
+    var expressionHaveResult: Bool {
+        return textView.text.firstIndex(of: "=") != nil
+    }
+
+    func touchedButton(_ sender: UIButton) {
+        guard let numberText = sender.title(for: .normal) else {
+            return
+        }
+        if expressionHaveResult {
+            textView.text = ""
+        }
+        textView.text.append(numberText)
+        notif.post(name: Notification.Name("textView_modified"), object: nil)
+    }
+
+    func tappedAdditionButton(_ sender: UIButton) {
+        if canAddOperator {
+            textView.text.append(" + ")
+            notif.post(name: Notification.Name("textView_modified"), object: nil)
+        } else {
+            notif.post(name: Notification.Name("present_button_alertVC"), object: nil)
+        }
+    }
+
+    func tappedSubstractionButton(_ sender: UIButton) {
+        if canAddOperator {
+            textView.text.append(" - ")
+            notif.post(name: Notification.Name("textView_modified"), object: nil)
+        } else {
+            notif.post(name: Notification.Name("present_button_alertVC"), object: nil)
+        }
+    }
+
+    func tappedMultiplicationButton(_ sender: UIButton) {
+        if canAddOperator {
+            textView.text.append(" x ")
+            notif.post(name: Notification.Name("textView_modified"), object: nil)
+        } else {
+            notif.post(name: Notification.Name("present_button_alertVC"), object: nil)
+        }
+    }
+
+    func tappedDivisionButton(_ sender: UIButton) {
+        if canAddOperator {
+            textView.text.append(" / ")
+            notif.post(name: Notification.Name("textView_modified"), object: nil)
+        } else {
+            notif.post(name: Notification.Name("present_button_alertVC"), object: nil)
+        }
+    }
+
+    func tappedEqualButton(_ sender: UIButton) {
+        guard expressionIsCorrect else {
+            return notif.post(name: Notification.Name("present_incorrectCalc_alertVC"), object: nil)
+        }
+        guard expressionHaveEnoughElement else {
+            return notif.post(name: Notification.Name("present_newCalc_alertVC"), object: nil)
+        }
+        // Iterate over operations while an operand still here
+        let operationsToReduce = Operations.calcul(elements)
+        textView.text.append(" = \(operationsToReduce.first!)")
+        notif.post(name: Notification.Name("textView_modified"), object: nil)
+    }
+
     // Iterate over operations while an operand still here
-    static func calcul(_ opToReduce : [String]) -> [String] {
+    static func calcul(_ opToReduce: [String]) -> [String] {
         var operationsToReduce = opToReduce
         while operationsToReduce.count > 1 {
             let left = Int(operationsToReduce[0])!
             let operand = operationsToReduce[1]
             let right = Int(operationsToReduce[2])!
-            
+
             let result: Float
             switch operand {
-                case "+": result = Float(left + right)
-                case "-": result = Float(left - right)
-                case "x": result = Float(left * right)
-                case "/": result = Float(Float(left) / Float(right))
-                default: fatalError("Unknown operator !")
+            case "+": result = Float(left + right)
+            case "-": result = Float(left - right)
+            case "x": result = Float(left * right)
+            case "/": result = Float(Float(left) / Float(right))
+            default: fatalError("Unknown operator !")
             }
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result.clean)", at: 0)
@@ -40,7 +125,7 @@ extension Float {
     var clean: String {
         let intValue = Int(self)
         if self == 0 {return "0"}
-        if self / Float (intValue) == 1 { return "\(intValue)" }
+        if self / Float(intValue) == 1 { return "\(intValue)" }
         return "\(self)"
     }
 }
