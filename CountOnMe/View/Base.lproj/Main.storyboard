@@ -245,6 +245,7 @@
                             <mask key="constraints">
                                 <exclude reference="77c-N9-7GU"/>
                                 <exclude reference="F77-gP-PNA"/>
+                                <exclude reference="lrV-l0-Jzl"/>
                                 <exclude reference="ysP-bC-4n7"/>
                                 <exclude reference="pPq-fJ-ueP"/>
                                 <exclude reference="uBJ-f2-7sJ"/>
@@ -252,13 +253,13 @@
                                 <exclude reference="zdx-Pf-38t"/>
                                 <exclude reference="yVR-jx-yO4"/>
                                 <exclude reference="zKX-TT-lSZ"/>
-                                <exclude reference="lrV-l0-Jzl"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="constraints">
                                 <include reference="77c-N9-7GU"/>
                                 <include reference="F77-gP-PNA"/>
+                                <include reference="lrV-l0-Jzl"/>
                                 <include reference="ysP-bC-4n7"/>
                                 <include reference="pPq-fJ-ueP"/>
                                 <include reference="uBJ-f2-7sJ"/>
@@ -266,22 +267,11 @@
                                 <include reference="zdx-Pf-38t"/>
                                 <include reference="yVR-jx-yO4"/>
                                 <include reference="zKX-TT-lSZ"/>
-                                <include reference="lrV-l0-Jzl"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
                         <outlet property="textView" destination="T2H-yn-nBB" id="yqe-Yo-Sag"/>
-                        <outletCollection property="numberButtons" destination="YD6-ul-r3f" collectionClass="NSMutableArray" id="c8W-uL-ZHg"/>
-                        <outletCollection property="numberButtons" destination="Raa-av-x4n" collectionClass="NSMutableArray" id="P52-Zx-bMS"/>
-                        <outletCollection property="numberButtons" destination="jd7-ld-hSU" collectionClass="NSMutableArray" id="U3Z-si-yYe"/>
-                        <outletCollection property="numberButtons" destination="UDN-zf-T0y" collectionClass="NSMutableArray" id="EsS-4s-VvX"/>
-                        <outletCollection property="numberButtons" destination="tMJ-tH-k5u" collectionClass="NSMutableArray" id="bHm-EG-hSS"/>
-                        <outletCollection property="numberButtons" destination="lad-SR-mqj" collectionClass="NSMutableArray" id="0dq-6F-JO8"/>
-                        <outletCollection property="numberButtons" destination="S66-ub-JAX" collectionClass="NSMutableArray" id="2lv-EY-kZ4"/>
-                        <outletCollection property="numberButtons" destination="W04-n1-Wen" collectionClass="NSMutableArray" id="F9G-eA-4ij"/>
-                        <outletCollection property="numberButtons" destination="EPx-3X-zTa" collectionClass="NSMutableArray" id="tmM-9D-IHt"/>
-                        <outletCollection property="numberButtons" destination="Hkr-13-i1X" collectionClass="NSMutableArray" id="Cn1-3U-qap"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7XP-3c-sJZ" sceneMemberID="firstResponder"/>
