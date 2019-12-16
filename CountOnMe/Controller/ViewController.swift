@@ -11,11 +11,12 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet var digitButtons: [UIButton]! // This outlet is use for test.
     var model = Operations()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        var name = Notification.Name(rawValue: "textView_modified")
+        var name = Notification.Name(rawValue: "calculatorExpression_modified")
         NotificationCenter.default.addObserver(self, selector: #selector(refreshView), name: name, object: nil)
 
         name = Notification.Name(rawValue: "present_button_alertVC")
@@ -51,42 +52,45 @@ class ViewController: UIViewController {
     }
 
     @objc func refreshView() {
-        textView = model.textView
+        textView.text = model.calculatorExpression
     }
 
     func refreshModel() {
-        model.textView = textView
+        model.calculatorExpression = textView.text
     }
 
     // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         refreshModel()
-        model.touchedButton(sender)
+        guard let numberText = sender.title(for: .normal) else {
+            return
+        }
+        model.digitButtonTouched(numberText)
     }
 
-    @IBAction func tappedAdditionButton(_ sender: UIButton) {
+    @IBAction func tappedAdditionButton() {
         refreshModel()
-        model.tappedAdditionButton(sender)
+        model.tappedAdditionButton()
     }
 
-    @IBAction func tappedSubstractionButton(_ sender: UIButton) {
+    @IBAction func tappedSubstractionButton() {
         refreshModel()
-        model.tappedSubstractionButton(sender)
+        model.tappedSubstractionButton()
     }
 
-    @IBAction func tappedMultiplicationButton(_ sender: UIButton) {
+    @IBAction func tappedMultiplicationButton() {
         refreshModel()
-        model.tappedMultiplicationButton(sender)
+        model.tappedMultiplicationButton()
     }
 
-    @IBAction func tappedDivisionButton(_ sender: UIButton) {
+    @IBAction func tappedDivisionButton() {
         refreshModel()
-        model.tappedDivisionButton(sender)
+        model.tappedDivisionButton()
     }
 
-    @IBAction func tappedEqualButton(_ sender: UIButton) {
+    @IBAction func tappedEqualButton() {
         refreshModel()
-        model.tappedEqualButton(sender)
+        model.tappedEqualButton()
     }
 
 }

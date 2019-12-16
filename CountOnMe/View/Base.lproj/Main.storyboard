@@ -170,7 +170,7 @@
                                             </mask>
                                         </variation>
                                         <connections>
-                                            <action selector="tappedAdditionButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="V0J-eg-vQK"/>
+                                            <action selector="tappedAdditionButton" destination="eqK-jh-KKu" eventType="touchUpInside" id="I8h-Ee-NAw"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3zr-HC-0N9">
@@ -181,7 +181,7 @@
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="tappedSubstractionButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="KVX-AF-NVM"/>
+                                            <action selector="tappedSubstractionButton" destination="eqK-jh-KKu" eventType="touchUpInside" id="9YC-5f-keE"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M2z-Lj-3H6" userLabel="x">
@@ -192,7 +192,7 @@
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="tappedMultiplicationButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="z0s-Wr-PME"/>
+                                            <action selector="tappedMultiplicationButton" destination="eqK-jh-KKu" eventType="touchUpInside" id="PLs-ux-dR6"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BSz-UI-Zcq">
@@ -203,7 +203,7 @@
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="tappedDivisionButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="cxa-lY-izw"/>
+                                            <action selector="tappedDivisionButton" destination="eqK-jh-KKu" eventType="touchDown" id="IOj-vE-DAj"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qMj-Of-bCU">
@@ -214,17 +214,17 @@
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="tappedEqualButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="JgS-cl-T2a"/>
+                                            <action selector="tappedEqualButton" destination="eqK-jh-KKu" eventType="touchUpInside" id="NdP-y3-wHn"/>
                                         </connections>
                                     </button>
                                 </subviews>
                             </stackView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="1+1=2" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="1+1=2" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="T2H-yn-nBB">
                                 <rect key="frame" x="10" y="53.999999999999972" width="394" height="505.33333333333326"/>
                                 <color key="backgroundColor" red="0.24527746819999999" green="0.53481305040000005" blue="0.58749136739999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="60"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" red="0.87536688539999996" green="0.84808511389999996" blue="0.83804947389999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -272,6 +272,16 @@
                     </view>
                     <connections>
                         <outlet property="textView" destination="T2H-yn-nBB" id="yqe-Yo-Sag"/>
+                        <outletCollection property="digitButtons" destination="Raa-av-x4n" collectionClass="NSMutableArray" id="n3h-dL-imc"/>
+                        <outletCollection property="digitButtons" destination="jd7-ld-hSU" collectionClass="NSMutableArray" id="5k7-90-0j7"/>
+                        <outletCollection property="digitButtons" destination="UDN-zf-T0y" collectionClass="NSMutableArray" id="7Xf-Va-jNX"/>
+                        <outletCollection property="digitButtons" destination="tMJ-tH-k5u" collectionClass="NSMutableArray" id="Dod-ws-ul7"/>
+                        <outletCollection property="digitButtons" destination="lad-SR-mqj" collectionClass="NSMutableArray" id="P8d-pE-jEy"/>
+                        <outletCollection property="digitButtons" destination="S66-ub-JAX" collectionClass="NSMutableArray" id="Tye-Ed-JmN"/>
+                        <outletCollection property="digitButtons" destination="W04-n1-Wen" collectionClass="NSMutableArray" id="3uH-ew-xfh"/>
+                        <outletCollection property="digitButtons" destination="EPx-3X-zTa" collectionClass="NSMutableArray" id="Ge3-oY-t4b"/>
+                        <outletCollection property="digitButtons" destination="Hkr-13-i1X" collectionClass="NSMutableArray" id="QWr-Oe-ca7"/>
+                        <outletCollection property="digitButtons" destination="YD6-ul-r3f" collectionClass="NSMutableArray" id="Lwe-Td-LlW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7XP-3c-sJZ" sceneMemberID="firstResponder"/>

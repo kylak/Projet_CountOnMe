@@ -11,19 +11,19 @@ import UIKit
 
 class Operations {
 
-    var textView: UITextView!
+    var calculatorExpression = ""
     let notif = NotificationCenter.default
 
     var elements: [String] {
-        return textView.text.split(separator: " ").map { "\($0)" }
+        return calculatorExpression.split(separator: " ").map { "\($0)" }
     }
 
     // Error check computed variables
-    var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/"
+    var calculatorExpressionIsCorrect: Bool {
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/" && elements.last != "="
     }
 
-    var expressionHaveEnoughElement: Bool {
+    var calculatorExpressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
 
@@ -31,101 +31,150 @@ class Operations {
         return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/"
     }
 
-    var expressionHaveResult: Bool {
-        return textView.text.firstIndex(of: "=") != nil
+    var calculatorExpressionHaveResult: Bool {
+        return (calculatorExpression.firstIndex(of: "=") != nil || calculatorExpression == "Erreur")
     }
 
-    func touchedButton(_ sender: UIButton) {
-        guard let numberText = sender.title(for: .normal) else {
-            return
+    func digitButtonTouched(_ numberText: String) {
+        if calculatorExpressionHaveResult {
+            calculatorExpression = ""
         }
-        if expressionHaveResult {
-            textView.text = ""
-        }
-        textView.text.append(numberText)
-        notif.post(name: Notification.Name("textView_modified"), object: nil)
+        calculatorExpression.append(numberText)
+        notif.post(name: Notification.Name("calculatorExpression_modified"), object: nil)
     }
 
-    func tappedAdditionButton(_ sender: UIButton) {
+    func tappedAdditionButton() {
         if canAddOperator {
-            textView.text.append(" + ")
-            notif.post(name: Notification.Name("textView_modified"), object: nil)
+            calculatorExpression.append(" + ")
+            notif.post(name: Notification.Name("calculatorExpression_modified"), object: nil)
         } else {
             notif.post(name: Notification.Name("present_button_alertVC"), object: nil)
         }
     }
 
-    func tappedSubstractionButton(_ sender: UIButton) {
+    func tappedSubstractionButton() {
         if canAddOperator {
-            textView.text.append(" - ")
-            notif.post(name: Notification.Name("textView_modified"), object: nil)
+            calculatorExpression.append(" - ")
+            notif.post(name: Notification.Name("calculatorExpression_modified"), object: nil)
         } else {
             notif.post(name: Notification.Name("present_button_alertVC"), object: nil)
         }
     }
 
-    func tappedMultiplicationButton(_ sender: UIButton) {
+    func tappedMultiplicationButton() {
         if canAddOperator {
-            textView.text.append(" x ")
-            notif.post(name: Notification.Name("textView_modified"), object: nil)
+            calculatorExpression.append(" x ")
+            notif.post(name: Notification.Name("calculatorExpression_modified"), object: nil)
         } else {
             notif.post(name: Notification.Name("present_button_alertVC"), object: nil)
         }
     }
 
-    func tappedDivisionButton(_ sender: UIButton) {
+    func tappedDivisionButton() {
         if canAddOperator {
-            textView.text.append(" / ")
-            notif.post(name: Notification.Name("textView_modified"), object: nil)
+            calculatorExpression.append(" / ")
+            notif.post(name: Notification.Name("calculatorExpression_modified"), object: nil)
         } else {
             notif.post(name: Notification.Name("present_button_alertVC"), object: nil)
         }
     }
 
-    func tappedEqualButton(_ sender: UIButton) {
-        guard expressionIsCorrect else {
+    func tappedEqualButton() {
+        guard calculatorExpressionIsCorrect else {
             return notif.post(name: Notification.Name("present_incorrectCalc_alertVC"), object: nil)
         }
-        guard expressionHaveEnoughElement else {
+        guard calculatorExpressionHaveEnoughElement else {
             return notif.post(name: Notification.Name("present_newCalc_alertVC"), object: nil)
         }
         // Iterate over operations while an operand still here
-        let operationsToReduce = Operations.calcul(elements)
-        textView.text.append(" = \(operationsToReduce.first!)")
-        notif.post(name: Notification.Name("textView_modified"), object: nil)
+        let operationsToReduce = calcul(elements)
+        if (operationsToReduce.first != nil) {
+            calculatorExpression.append(" = \(operationsToReduce.first!)")
+        }
+        else { calculatorExpression = "Erreur" } // division par 0.
+        notif.post(name: Notification.Name("calculatorExpression_modified"), object: nil)
     }
 
     // Iterate over operations while an operand still here
-    static func calcul(_ opToReduce: [String]) -> [String] {
+    func calcul(_ opToReduce: [String]) -> [String] {
         var operationsToReduce = opToReduce
         while operationsToReduce.count > 1 {
             let left = Int(operationsToReduce[0])!
             let operand = operationsToReduce[1]
             let right = Int(operationsToReduce[2])!
 
-            let result: Float
+            var result: Double?
             switch operand {
-            case "+": result = Float(left + right)
-            case "-": result = Float(left - right)
-            case "x": result = Float(left * right)
-            case "/": result = Float(Float(left) / Float(right))
-            default: fatalError("Unknown operator !")
+            case "/":
+                if (right != 0) {
+                    result = Double(Double(left) / Double(right))
+                }
+                else { result = nil}
+            default: result = 0.0
             }
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result.clean)", at: 0)
+            if (result != nil) {
+                let calculateForm = calculatorExpression.replacingOccurrences(of: " x ", with: " * ")
+                result = calculateForm.calculate()
+                let precision = 10000000.0
+                result = Double(round(precision*result!)/precision)
+                operationsToReduce.insert(result!.clean, at: 0)
+            }
             return operationsToReduce
         }
         return operationsToReduce
     }
 }
 
+extension String {
+
+    private func allNumsToFloat() -> String {
+
+        let symbolsCharSet = ".,"
+        let fullCharSet = "0123456789" + symbolsCharSet
+        var i = 0
+        var result = ""
+        let chars = Array(self)
+        while i < chars.count {
+            if fullCharSet.contains(chars[i]) {
+                var numString = String(chars[i])
+                i += 1
+                loop: while i < chars.count {
+                    if fullCharSet.contains(chars[i]) {
+                        numString += String(chars[i])
+                        i += 1
+                    } else {
+                        break loop
+                    }
+                }
+                if let num = Double(numString) {
+                    result += "\(num)"
+                } else {
+                    result += numString
+                }
+            } else {
+                result += String(chars[i])
+                i += 1
+            }
+        }
+        return result
+    }
+
+    func calculate() -> Double? {
+        let transformedString = allNumsToFloat()
+        let expr = NSExpression(format: transformedString)
+        return expr.expressionValue(with: nil, context: nil) as? Double
+    }
+}
+
 /* This extension is use to remove the ".0" from a float number like "32.0" for example.
    So with clean we'd have "32" instead of "32.0". */
-extension Float {
+extension Double {
     var clean: String {
         let intValue = Int(self)
         if self == 0 {return "0"}
-        if self / Float(intValue) == 1 { return "\(intValue)" }
+        if self / Double(intValue) == 1 { return "\(intValue)" }
         return "\(self)"
     }
 }
+
