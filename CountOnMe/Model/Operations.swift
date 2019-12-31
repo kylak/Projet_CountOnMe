@@ -99,28 +99,33 @@ class Operations {
     func calcul(_ opToReduce: [String]) -> [String] {
         var operationsToReduce = opToReduce
         while operationsToReduce.count > 1 {
-            let left = Double(operationsToReduce[0])!
+            let left = Double(operationsToReduce[0])
             let operand = operationsToReduce[1]
-            let right = Double(operationsToReduce[2])!
-
+            let right = Double(operationsToReduce[2])
             var result: Double?
             switch operand {
             case "/":
-                if (right != 0) {
-                    result = Double(Double(left) / Double(right))
+                if (right != 0 && right != nil && left != nil) {
+                    result = Double(Double(left!) / Double(right!))
                 }
                 else { result = nil}
             default: result = 0.0
             }
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
             if (result != nil) {
+                operationsToReduce = Array(operationsToReduce.dropFirst(3))
                 let calculateForm = calculatorExpression.replacingOccurrences(of: " x ", with: " * ")
                 result = calculateForm.calculate()
                 let precision = 10000000.0
-                result = Double(round(precision*result!)/precision)
-                operationsToReduce.insert(result!.clean, at: 0)
+                if (result != nil) {
+                    result = Double(round(precision*result!)/precision)
+                    operationsToReduce.insert(result!.clean, at: 0)
+                }
+                return operationsToReduce
             }
-            return operationsToReduce
+            else {
+                operationsToReduce.insert("inf", at: 0)
+                return operationsToReduce
+            }
         }
         return operationsToReduce
     }
