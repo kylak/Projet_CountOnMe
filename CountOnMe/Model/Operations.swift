@@ -88,7 +88,7 @@ class Operations {
         }
         // Iterate over operations while an operand still here
         let operationsToReduce = calcul(elements)
-        if (operationsToReduce.first != nil) {
+        if (operationsToReduce.first != nil && operationsToReduce.first != "inf") {
             calculatorExpression.append(" = \(operationsToReduce.first!)")
         }
         else { calculatorExpression = "Erreur" } // division par 0.
@@ -99,9 +99,9 @@ class Operations {
     func calcul(_ opToReduce: [String]) -> [String] {
         var operationsToReduce = opToReduce
         while operationsToReduce.count > 1 {
-            let left = Int(operationsToReduce[0])!
+            let left = Double(operationsToReduce[0])!
             let operand = operationsToReduce[1]
-            let right = Int(operationsToReduce[2])!
+            let right = Double(operationsToReduce[2])!
 
             var result: Double?
             switch operand {
@@ -171,9 +171,9 @@ extension String {
    So with clean we'd have "32" instead of "32.0". */
 extension Double {
     var clean: String {
-        let intValue = Int(self)
+        let doubleValue = Double(self)
         if self == 0 {return "0"}
-        if self / Double(intValue) == 1 { return "\(intValue)" }
+        if self / Double(doubleValue) == 1 { return "\(doubleValue)" }
         return "\(self)"
     }
 }
