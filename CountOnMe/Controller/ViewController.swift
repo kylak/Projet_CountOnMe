@@ -33,24 +33,24 @@ class ViewController: UIViewController {
     }
 
     @objc func present_button_alertVC() {
-        let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
+        let alertVC = UIAlertController(title: nil, message: "Un operateur est déja mis !", preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertVC, animated: true, completion: nil)
     }
 
     @objc func present_incorrectCalc_alertVC() {
-        let alertVC = UIAlertController(title: "Zéro!",
+        let alertVC = UIAlertController(title: nil,
                                         message: "Entrez une expression correcte !", preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         return self.present(alertVC, animated: true, completion: nil)
     }
 
     @objc func present_newCalc_alertVC() {
-        let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
+        let alertVC = UIAlertController(title: nil, message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         return self.present(alertVC, animated: true, completion: nil)
     }
-
+    
     @objc func refreshView() {
         textView.text = model.calculatorExpression
     }

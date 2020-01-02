@@ -86,13 +86,15 @@ class Operations {
         guard calculatorExpressionHaveEnoughElement else {
             return notif.post(name: Notification.Name("present_newCalc_alertVC"), object: nil)
         }
-        // Iterate over operations while an operand still here
-        let operationsToReduce = calcul(elements)
-        if (operationsToReduce.first != nil && operationsToReduce.first != "inf") {
-            calculatorExpression.append(" = \(operationsToReduce.first!)")
+        if (!calculatorExpressionHaveResult) {
+            // Iterate over operations while an operand still here
+            let operationsToReduce = calcul(elements)
+            if (operationsToReduce.first != nil && operationsToReduce.first != "inf") {
+                calculatorExpression.append(" = \(operationsToReduce.first!)")
+            }
+            else { calculatorExpression = "Erreur" } // division par 0.
+            notif.post(name: Notification.Name("calculatorExpression_modified"), object: nil)
         }
-        else { calculatorExpression = "Erreur" } // division par 0.
-        notif.post(name: Notification.Name("calculatorExpression_modified"), object: nil)
     }
 
     // Iterate over operations while an operand still here
