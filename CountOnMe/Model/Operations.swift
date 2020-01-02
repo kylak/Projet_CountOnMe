@@ -12,6 +12,7 @@ import UIKit
 class Operations {
 
     var calculatorExpression = ""
+    var ACjustBefore = true
     let notif = NotificationCenter.default
 
     var elements: [String] {
@@ -20,7 +21,7 @@ class Operations {
 
     // Error check computed variables
     var calculatorExpressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/" && elements.last != "="
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/" && elements.last != "=" && !ACjustBefore
     }
 
     var calculatorExpressionHaveEnoughElement: Bool {
@@ -28,7 +29,7 @@ class Operations {
     }
 
     var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/"
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/" && !ACjustBefore
     }
 
     var calculatorExpressionHaveResult: Bool {
@@ -40,6 +41,10 @@ class Operations {
             calculatorExpression = ""
         }
         calculatorExpression.append(numberText)
+        if (ACjustBefore) {
+            calculatorExpression = numberText
+            ACjustBefore = false
+        }
         notif.post(name: Notification.Name("calculatorExpression_modified"), object: nil)
     }
 
@@ -95,6 +100,12 @@ class Operations {
             else { calculatorExpression = "Erreur" } // division par 0.
             notif.post(name: Notification.Name("calculatorExpression_modified"), object: nil)
         }
+    }
+    
+    func tappedAC_button() {
+        calculatorExpression = "0"
+        ACjustBefore = true;
+        notif.post(name: Notification.Name("calculatorExpression_modified"), object: nil)
     }
 
     // Iterate over operations while an operand still here

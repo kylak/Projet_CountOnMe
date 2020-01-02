@@ -33,7 +33,7 @@ class ViewController: UIViewController {
     }
 
     @objc func present_button_alertVC() {
-        let alertVC = UIAlertController(title: nil, message: "Un operateur est déja mis !", preferredStyle: .alert)
+        let alertVC = UIAlertController(title: nil, message: "Vous ne pouvez ajouter cet opérateur à cette expression !", preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertVC, animated: true, completion: nil)
     }
@@ -93,4 +93,7 @@ class ViewController: UIViewController {
         model.tappedEqualButton()
     }
 
+    @IBAction func tappedAC_button() {
+        model.tappedAC_button()
+    }
 }
