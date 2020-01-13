@@ -28,12 +28,12 @@ class Operations {
         return elements.count >= 3
     }
 
-    var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/" && !ACjustBefore
-    }
-
     var calculatorExpressionHaveResult: Bool {
         return (calculatorExpression.firstIndex(of: "=") != nil || calculatorExpression == "Erreur")
+    }
+    
+    var canAddOperator: Bool {
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/" && !calculatorExpressionHaveResult && !ACjustBefore
     }
 
     func digitButtonTouched(_ numberText: String) {
@@ -118,8 +118,8 @@ class Operations {
             var result: Double?
             switch operand {
             case "/":
-                if (right != 0 && right != nil && left != nil) {
-                    result = Double(Double(left!) / Double(right!))
+                if right != 0, let openedRight = right, let openedLeft = left {
+                    result = Double(Double(openedLeft) / Double(openedRight))
                 }
                 else { result = nil}
             default: result = 0.0
@@ -129,9 +129,11 @@ class Operations {
                 let calculateForm = calculatorExpression.replacingOccurrences(of: " x ", with: " * ")
                 result = calculateForm.calculate()
                 let precision = 10000000.0
-                if (result != nil) {
-                    result = Double(round(precision*result!)/precision)
-                    operationsToReduce.insert(result!.clean, at: 0)
+                if let openedResult = result {
+                    result = Double(round(precision*openedResult)/precision)
+                    if let openedResult2 = result {
+                        operationsToReduce.insert(openedResult2.clean, at: 0)
+                    }
                 }
                 return operationsToReduce
             }
@@ -189,7 +191,7 @@ extension String {
    So with clean we'd have "32" instead of "32.0". */
 extension Double {
     var clean: String {
-        let doubleValue = Double(self)
+        let doubleValue = Int(self)
         if self == 0 {return "0"}
         if self / Double(doubleValue) == 1 { return "\(doubleValue)" }
         return "\(self)"
