@@ -12,6 +12,7 @@ import UIKit
 class Operations {
 
     var calculatorExpression = ""
+    var ACjustBefore = true
     let notif = NotificationCenter.default
 
     var elements: [String] {
@@ -20,19 +21,19 @@ class Operations {
 
     // Error check computed variables
     var calculatorExpressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/" && elements.last != "="
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/" && elements.last != "=" && !ACjustBefore
     }
 
     var calculatorExpressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
 
-    var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/"
-    }
-
     var calculatorExpressionHaveResult: Bool {
         return (calculatorExpression.firstIndex(of: "=") != nil || calculatorExpression == "Erreur")
+    }
+    
+    var canAddOperator: Bool {
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/" && !calculatorExpressionHaveResult && !ACjustBefore
     }
 
     func digitButtonTouched(_ numberText: String) {
@@ -40,6 +41,10 @@ class Operations {
             calculatorExpression = ""
         }
         calculatorExpression.append(numberText)
+        if (ACjustBefore) {
+            calculatorExpression = numberText
+            ACjustBefore = false
+        }
         notif.post(name: Notification.Name("calculatorExpression_modified"), object: nil)
     }
 
@@ -86,12 +91,20 @@ class Operations {
         guard calculatorExpressionHaveEnoughElement else {
             return notif.post(name: Notification.Name("present_newCalc_alertVC"), object: nil)
         }
-        // Iterate over operations while an operand still here
-        let operationsToReduce = calcul(elements)
-        if (operationsToReduce.first != nil && operationsToReduce.first != "inf") {
-            calculatorExpression.append(" = \(operationsToReduce.first!)")
+        if (!calculatorExpressionHaveResult) {
+            // Iterate over operations while an operand still here
+            let operationsToReduce = calcul(elements)
+            if (operationsToReduce.first != nil && operationsToReduce.first != "inf") {
+                calculatorExpression.append(" = \(operationsToReduce.first!)")
+            }
+            else { calculatorExpression = "Erreur" } // division par 0.
+            notif.post(name: Notification.Name("calculatorExpression_modified"), object: nil)
         }
-        else { calculatorExpression = "Erreur" } // division par 0.
+    }
+    
+    func tappedAC_button() {
+        calculatorExpression = "0"
+        ACjustBefore = true;
         notif.post(name: Notification.Name("calculatorExpression_modified"), object: nil)
     }
 
@@ -105,8 +118,8 @@ class Operations {
             var result: Double?
             switch operand {
             case "/":
-                if (right != 0 && right != nil && left != nil) {
-                    result = Double(Double(left!) / Double(right!))
+                if right != 0, let openedRight = right, let openedLeft = left {
+                    result = Double(Double(openedLeft) / Double(openedRight))
                 }
                 else { result = nil}
             default: result = 0.0
@@ -116,9 +129,11 @@ class Operations {
                 let calculateForm = calculatorExpression.replacingOccurrences(of: " x ", with: " * ")
                 result = calculateForm.calculate()
                 let precision = 10000000.0
-                if (result != nil) {
-                    result = Double(round(precision*result!)/precision)
-                    operationsToReduce.insert(result!.clean, at: 0)
+                if let openedResult = result {
+                    result = Double(round(precision*openedResult)/precision)
+                    if let openedResult2 = result {
+                        operationsToReduce.insert(openedResult2.clean, at: 0)
+                    }
                 }
                 return operationsToReduce
             }
@@ -176,7 +191,7 @@ extension String {
    So with clean we'd have "32" instead of "32.0". */
 extension Double {
     var clean: String {
-        let doubleValue = Double(self)
+        let doubleValue = Int(self)
         if self == 0 {return "0"}
         if self / Double(doubleValue) == 1 { return "\(doubleValue)" }
         return "\(self)"
